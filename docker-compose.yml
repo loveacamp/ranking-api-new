@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  postgres_ranking:
+    container_name: postgres_ranking
+    image: postgres:14.3-alpine
+    restart: unless-stopped
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_USER=root
+      - POSTGRES_DB=ranking
+    volumes:
+      - data:/var/lib/postgresql/data
+      - type: tmpfs
+        target: /dev/shm
+
+volumes:
+  data:
+    driver: local
