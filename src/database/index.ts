@@ -1,6 +1,8 @@
 import { resolve } from "path";
 import { DataSource } from "typeorm";
 
+import { MIGRATIONS } from "./migrations";
+
 const AppDataSource = new DataSource({
     type: "postgres",
     host: process.env.DB_HOST,
@@ -8,7 +10,7 @@ const AppDataSource = new DataSource({
     username: process.env.DB_USER,
     password: process.env.DB_PASS,
     database: process.env.DB_DATABASE,
-    migrations: ["./src/database/migrations/*.ts"],
+    migrations: MIGRATIONS,
     entities: [resolve(__dirname, "..", "modules", "**", "entities", "*.ts")],
     logging: true,
 });
