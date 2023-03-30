@@ -2,7 +2,8 @@ import { MigrationInterface, QueryRunner, Table } from "typeorm";
 
 export class CreateAssociationBaseRanking1680133069015
     // eslint-disable-next-line prettier/prettier
-    implements MigrationInterface {
+    implements MigrationInterface
+{
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(
             new Table({

@@ -1,17 +1,17 @@
-import { resolve } from "path";
 import { DataSource } from "typeorm";
 
+import { ENTITIES } from "../modules";
 import { MIGRATIONS } from "./migrations";
 
 const AppDataSource = new DataSource({
     type: "postgres",
     host: "localhost",
     port: 5432,
-    username: "root",
-    password: "root",
+    username: "postgres",
+    password: "123",
     database: "ranking",
     migrations: MIGRATIONS,
-    entities: [resolve(__dirname, "..", "modules", "**", "entities", "*.ts")],
+    entities: ENTITIES,
     logging: true,
 });
 
