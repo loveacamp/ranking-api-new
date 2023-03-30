@@ -1,4 +1,12 @@
-import { Column, CreateDateColumn, Entity, PrimaryColumn } from "typeorm";
+import {
+    Column,
+    CreateDateColumn,
+    Entity,
+    OneToMany,
+    PrimaryColumn,
+} from "typeorm";
+
+import { Base } from "../../bases/entities/Base";
 
 @Entity("churches")
 class Church {
@@ -7,6 +15,9 @@ class Church {
 
     @Column()
     name: string;
+
+    @OneToMany(() => Base, (base) => base.church)
+    base: Base[];
 
     @CreateDateColumn()
     createdAt: Date;
