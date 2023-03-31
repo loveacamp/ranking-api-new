@@ -1,3 +1,4 @@
+import "dotenv/config";
 import { DataSource } from "typeorm";
 
 import { ENTITIES } from "../modules";
@@ -5,11 +6,11 @@ import { MIGRATIONS } from "./migrations";
 
 const AppDataSource = new DataSource({
     type: "postgres",
-    host: "localhost",
-    port: 5432,
-    username: "postgres",
-    password: "123",
-    database: "ranking",
+    host: process.env.DB_HOST,
+    port: +process.env.DB_PORT,
+    username: process.env.DB_USER,
+    password: process.env.DB_PASS,
+    database: process.env.DB_DATABASE,
     migrations: MIGRATIONS,
     entities: ENTITIES,
     logging: true,

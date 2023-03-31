@@ -6,9 +6,11 @@
     "license": "MIT",
     "scripts": {
         "dev": "ts-node-dev --inspect --transpile-only --ignore-watch node_modules --respawn src/server.ts",
+        "build": "tsc",
         "typeorm": "ts-node-dev ./node_modules/typeorm/cli",
         "migrate:run": "yarn typeorm migration:run -d ./src/database/",
         "migrate:create": "yarn typeorm migration:create ./src/database/migrations/nome-aqui",
+        "migrate:revert": "yarn typeorm migration:revert -d ./src/database/",
         "prettier": "prettier --write \"**/*.{ts, js}\""
     },
     "devDependencies": {
@@ -18,7 +20,7 @@
         "@types/node": "^18.15.5",
         "@typescript-eslint/eslint-plugin": "^5.56.0",
         "@typescript-eslint/parser": "^5.56.0",
-        "eslint": "^8.36.0",
+        "eslint": "7.21.0",
         "eslint-config-airbnb-base": "^15.0.0",
         "eslint-config-prettier": "^8.8.0",
         "eslint-import-resolver-typescript": "^3.5.3",
