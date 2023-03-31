@@ -8,9 +8,9 @@ import { router } from "./routes";
 
 const app = express();
 
-const options = { origin: ['*'], credentials: true, exposedHeaders: '*, Authorization' }
+// const options = { origin: ['*'], credentials: true, exposedHeaders: '*, Authorization' }
 
-app.use(cors(options))
+app.use(cors())
 
 app.use(express.json());
 
