@@ -1,7 +1,13 @@
-interface ICreateRankingDTO {
-    id?: number;
-    score: number;
-    description: string;
+enum RankingType {
+    "M" = "Mensal",
+    "A" = "Anual",
 }
 
-export { ICreateRankingDTO };
+interface ICreateRankingDTO {
+    score: number;
+    description: string;
+    type: RankingType;
+    expiredAt?: Date;
+}
+
+export { ICreateRankingDTO, RankingType };

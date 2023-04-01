@@ -1,4 +1,10 @@
-import { Column, CreateDateColumn, Entity, PrimaryColumn } from "typeorm";
+import {
+    Column,
+    CreateDateColumn,
+    Entity,
+    PrimaryColumn,
+    UpdateDateColumn,
+} from "typeorm";
 
 @Entity("rankings")
 class Ranking {
@@ -11,10 +17,16 @@ class Ranking {
     @Column()
     description: string;
 
+    @Column()
+    type: string;
+
+    @Column()
+    expiredAt: Date;
+
     @CreateDateColumn()
     createdAt: Date;
 
-    @CreateDateColumn()
+    @UpdateDateColumn()
     updatedAt: Date;
 }
 

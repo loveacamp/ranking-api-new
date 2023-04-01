@@ -6,6 +6,7 @@ import {
     ManyToOne,
     ManyToMany,
     JoinTable,
+    UpdateDateColumn,
 } from "typeorm";
 
 import { Church } from "../../churches/entities/Church";
@@ -36,7 +37,7 @@ class Base {
     @CreateDateColumn()
     createdAt: Date;
 
-    @CreateDateColumn()
+    @UpdateDateColumn()
     updatedAt: Date;
 }
 

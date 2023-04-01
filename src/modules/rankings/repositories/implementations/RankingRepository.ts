@@ -1,4 +1,4 @@
-import { Repository } from "typeorm";
+import { MoreThanOrEqual, Repository } from "typeorm";
 
 import { AppDataSource } from "../../../../database";
 import { ICreateRankingDTO } from "../../../dtos/ICreateRankingDTO";
@@ -15,13 +15,24 @@ class RankingRepository implements IRankingRepository {
     async list(): Promise<Ranking[]> {
         const rankings: Ranking[] = await this.repository.find({
             order: { createdAt: "ASC" },
+            where: { expiredAt: MoreThanOrEqual(new Date()) },
         });
 
         return rankings;
     }
 
-    async create({ score, description }: ICreateRankingDTO): Promise<void> {
-        const ranking: Ranking = this.repository.create({ score, description });
+    async create({
+        score,
+        description,
+        type,
+        expiredAt,
+    }: ICreateRankingDTO): Promise<void> {
+        const ranking: Ranking = this.repository.create({
+            score,
+            description,
+            type,
+            expiredAt,
+        });
 
         await this.repository.save(ranking);
     }

@@ -4,6 +4,7 @@ import {
     Entity,
     OneToMany,
     PrimaryColumn,
+    UpdateDateColumn,
 } from "typeorm";
 
 import { Base } from "../../bases/entities/Base";
@@ -22,7 +23,7 @@ class Church {
     @CreateDateColumn()
     createdAt: Date;
 
-    @CreateDateColumn()
+    @UpdateDateColumn()
     updatedAt: Date;
 }
 

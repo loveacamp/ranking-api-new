@@ -1,7 +1,7 @@
 import "dotenv/config";
 import "express-async-errors";
+import cors from "cors";
 import express, { NextFunction, Request, Response } from "express";
-import cors from "cors"
 
 import { AppError } from "./errors/AppErros";
 import { router } from "./routes";
@@ -10,7 +10,7 @@ const app = express();
 
 // const options = { origin: ['*'], credentials: true, exposedHeaders: '*, Authorization' }
 
-app.use(cors())
+app.use(cors());
 
 app.use(express.json());
 

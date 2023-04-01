@@ -8,9 +8,9 @@ class CreateRankingController {
     }
 
     async handle(request: Request, response: Response): Promise<Response> {
-        const { score, description } = request.body;
+        const { score, description, type } = request.body;
 
-        await this.createRankingUseCase.execute({ score, description });
+        await this.createRankingUseCase.execute({ score, description, type });
 
         return response.status(201).send();
     }
