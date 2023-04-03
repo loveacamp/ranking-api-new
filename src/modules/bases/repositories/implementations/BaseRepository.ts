@@ -18,7 +18,7 @@ class BaseRepository implements IBaseRepository {
     async list(): Promise<Base[]> {
         const bases = await this.repository.find({
             relations: {
-                city: true,
+                city: { state: true },
                 church: true,
                 rankings: true,
             },
