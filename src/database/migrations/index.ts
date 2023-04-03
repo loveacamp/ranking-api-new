@@ -6,6 +6,7 @@ import { CreateChurches1680046294443 } from "./1680046294443-CreateChurches";
 import { CreateBases1680054732329 } from "./1680054732329-CreateBases";
 import { CreateAssociationBaseRanking1680133069015 } from "./1680133069015-CreateAssociationBaseRanking";
 import { AddColmnRankings1680217556593 } from "./1680217556593-AddColmnRankings";
+import { AddColmnStatusInRankings1680563264953 } from "./1680563264953-AddColmnStatusInRankings";
 
 export const MIGRATIONS = [
     CreateRankings1679863078422,
@@ -16,4 +17,5 @@ export const MIGRATIONS = [
     CreateBases1680054732329,
     CreateAssociationBaseRanking1680133069015,
     AddColmnRankings1680217556593,
+    AddColmnStatusInRankings1680563264953,
 ];

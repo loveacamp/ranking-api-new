@@ -15,7 +15,10 @@ class RankingRepository implements IRankingRepository {
     async list(): Promise<Ranking[]> {
         const rankings: Ranking[] = await this.repository.find({
             order: { createdAt: "ASC" },
-            where: { expiredAt: MoreThanOrEqual(new Date()) },
+            where: {
+                expiredAt: MoreThanOrEqual(new Date()),
+                status: true,
+            },
         });
 
         return rankings;
@@ -35,6 +38,10 @@ class RankingRepository implements IRankingRepository {
         });
 
         await this.repository.save(ranking);
+    }
+
+    async inactive(id: number): Promise<void> {
+        await this.repository.update(id, { status: false });
     }
 }
 

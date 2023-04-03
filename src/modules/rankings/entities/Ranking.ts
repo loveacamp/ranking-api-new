@@ -21,6 +21,9 @@ class Ranking {
     type: string;
 
     @Column()
+    status: boolean;
+
+    @Column()
     expiredAt: Date;
 
     @CreateDateColumn()
