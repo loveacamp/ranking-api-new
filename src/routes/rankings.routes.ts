@@ -3,12 +3,17 @@ import { Router } from "express";
 import { ensureAuthenticated } from "../middlewares/ansureAutenticated";
 import createRanking from "../modules/rankings/useCases/createRanking";
 import inactiveRanking from "../modules/rankings/useCases/inactiveRanking";
+import listAllRankings from "../modules/rankings/useCases/listAllRankings";
 import listRankings from "../modules/rankings/useCases/listRankings";
 
 const rankingRouter = Router();
 
 rankingRouter.get("", (request, response) => {
-    listRankings().handle(request, response);
+    return listRankings().handle(request, response);
+});
+
+rankingRouter.get("/all", (request, response) => {
+    return listAllRankings().handle(request, response);
 });
 
 rankingRouter.post("", ensureAuthenticated, (request, response) => {

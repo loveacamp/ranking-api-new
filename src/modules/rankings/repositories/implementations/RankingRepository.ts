@@ -24,6 +24,14 @@ class RankingRepository implements IRankingRepository {
         return rankings;
     }
 
+    async listAll(): Promise<Ranking[]> {
+        const rankings: Ranking[] = await this.repository.find({
+            order: { createdAt: "ASC" },
+        });
+
+        return rankings;
+    }
+
     async create({
         score,
         description,
