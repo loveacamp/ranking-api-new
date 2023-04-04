@@ -12,7 +12,7 @@ rankingRouter.get("", (request, response) => {
     return listRankings().handle(request, response);
 });
 
-rankingRouter.get("/all", (request, response) => {
+rankingRouter.get("/all", ensureAuthenticated, (request, response) => {
     return listAllRankings().handle(request, response);
 });
 
