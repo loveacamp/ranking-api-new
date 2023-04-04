@@ -4,6 +4,7 @@ import { ensureAuthenticated } from "../middlewares/ansureAutenticated";
 import addScores from "../modules/bases/useCases/addScores/addScores";
 import createbase from "../modules/bases/useCases/createbase";
 import deleteBase from "../modules/bases/useCases/deleteBase";
+import editBase from "../modules/bases/useCases/editBase";
 import listBases from "../modules/bases/useCases/listBases";
 import listScores from "../modules/bases/useCases/listScores";
 
@@ -15,6 +16,10 @@ baseRouter.get("", (request, response) => {
 
 baseRouter.post("", ensureAuthenticated, (request, response) => {
     return createbase().handle(request, response);
+});
+
+baseRouter.put("/:baseId", ensureAuthenticated, (request, response) => {
+    return editBase().handle(request, response);
 });
 
 baseRouter.delete("/:baseId", ensureAuthenticated, (request, response) => {

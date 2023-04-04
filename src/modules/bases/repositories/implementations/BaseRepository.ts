@@ -2,7 +2,7 @@ import { Repository } from "typeorm";
 
 import { AppDataSource } from "../../../../database";
 import { IAddScoreDTO } from "../../../dtos/IAddScoreDTO";
-import { ICreateBaseDTO } from "../../../dtos/ICreateBaseDTO";
+import { ICreateBaseDTO, IEditBaseDTO } from "../../../dtos/ICreateBaseDTO";
 import { IListScoresDTO } from "../../../dtos/IListScoresDTO";
 import { Ranking } from "../../../rankings/entities/Ranking";
 import { Base } from "../../entities/Base";
@@ -41,6 +41,14 @@ class BaseRepository implements IBaseRepository {
         });
 
         await this.repository.insert(base);
+    }
+
+    async edit({ churchId, cityId, name, id }: IEditBaseDTO): Promise<void> {
+        await this.repository.update(id, {
+            church: { id: churchId },
+            city: { id: cityId },
+            name,
+        });
     }
 
     async delete(baseId: number): Promise<void> {

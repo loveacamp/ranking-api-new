@@ -15,8 +15,12 @@ rankingRouter.post("", ensureAuthenticated, (request, response) => {
     return createRanking().handle(request, response);
 });
 
-rankingRouter.patch("/:rankingId/inactive", (request, response) => {
-    return inactiveRanking().handle(request, response);
-});
+rankingRouter.patch(
+    "/:rankingId/inactive",
+    ensureAuthenticated,
+    (request, response) => {
+        return inactiveRanking().handle(request, response);
+    }
+);
 
 export { rankingRouter };

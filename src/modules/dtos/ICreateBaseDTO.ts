@@ -6,4 +6,6 @@ interface ICreateBaseDTO {
     cityId: number;
 }
 
-export { ICreateBaseDTO };
+type IEditBaseDTO = Omit<NonNullable<ICreateBaseDTO>, "term">;
+
+export { ICreateBaseDTO, IEditBaseDTO };
