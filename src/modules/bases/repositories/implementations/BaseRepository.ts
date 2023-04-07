@@ -1,6 +1,7 @@
 import { Repository } from "typeorm";
 
 import { AppDataSource } from "../../../../database";
+import { ResolveScoresService } from "../../../../utils/ResolveScoresService";
 import { IAddScoreDTO } from "../../../dtos/IAddScoreDTO";
 import { ICreateBaseDTO, IEditBaseDTO } from "../../../dtos/ICreateBaseDTO";
 import { IListScoresDTO } from "../../../dtos/IListScoresDTO";
@@ -32,15 +33,29 @@ class BaseRepository implements IBaseRepository {
         term,
         cityId,
         churchId,
-    }: ICreateBaseDTO): Promise<void> {
-        const base = this.repository.create({
-            name,
-            term,
-            city: { id: cityId },
-            church: { id: churchId },
+    }: ICreateBaseDTO): Promise<Base> {
+        const base = await this.repository
+            .createQueryBuilder()
+            .insert()
+            .values({
+                name,
+                term,
+                city: { id: cityId },
+                church: { id: churchId },
+            })
+            .returning("id")
+            .execute();
+
+        const baseRuturning = await this.repository.findOne({
+            where: { id: base.identifiers[0].id },
+            relations: {
+                city: { state: true },
+                church: true,
+                rankings: true,
+            },
         });
 
-        await this.repository.insert(base);
+        return baseRuturning;
     }
 
     async edit({ churchId, cityId, name, id }: IEditBaseDTO): Promise<void> {
@@ -90,28 +105,8 @@ class BaseRepository implements IBaseRepository {
             .addOrderBy("3", "DESC")
             .getRawMany();
 
-        let index = 0;
-        const getPosition = (totalScore: number): number | null => {
-            if (totalScore <= 0) {
-                return null;
-            }
-
-            index += 1;
-            return index;
-        };
-
-        const scoresReturn: IListScoresDTO[] = scores.map((score) => {
-            return {
-                id: +score.id,
-                name: String(score.name),
-                totalScore: +score.totalScore,
-                position: getPosition(+score.totalScore),
-            };
-        });
-
-        console.log(scoresReturn, scores);
-
-        return scoresReturn;
+        const resolveScores = new ResolveScoresService(scores);
+        return resolveScores.getResults();
     }
 }
 

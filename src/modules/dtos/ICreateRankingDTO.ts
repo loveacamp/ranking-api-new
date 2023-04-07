@@ -4,6 +4,7 @@ enum RankingType {
 }
 
 interface ICreateRankingDTO {
+    id?: number;
     score: number;
     description: string;
     type: RankingType;

@@ -2,6 +2,7 @@ import { MoreThanOrEqual, Repository } from "typeorm";
 
 import { AppDataSource } from "../../../../database";
 import { ICreateRankingDTO } from "../../../dtos/ICreateRankingDTO";
+import { IEditRankingDTO } from "../../../dtos/IEditRankingDTO";
 import { Ranking } from "../../entities/Ranking";
 import { IRankingRepository } from "../IRankingRepository";
 
@@ -37,7 +38,7 @@ class RankingRepository implements IRankingRepository {
         description,
         type,
         expiredAt,
-    }: ICreateRankingDTO): Promise<void> {
+    }: ICreateRankingDTO): Promise<Ranking> {
         const ranking: Ranking = this.repository.create({
             score,
             description,
@@ -45,7 +46,25 @@ class RankingRepository implements IRankingRepository {
             expiredAt,
         });
 
-        await this.repository.save(ranking);
+        const insertResult = await this.repository
+            .createQueryBuilder()
+            .insert()
+            .values(ranking)
+            .returning(["id", "createdAt", "updatedAt"])
+            .execute();
+
+        ranking.id = insertResult.identifiers[0].id;
+        ranking.createdAt = insertResult.raw[0].createdAt;
+        ranking.updatedAt = insertResult.raw[0].updatedAt;
+
+        return ranking;
+    }
+
+    async edit({ description, score, id }: IEditRankingDTO): Promise<void> {
+        await this.repository.update(id, {
+            description,
+            score,
+        });
     }
 
     async inactive(id: number): Promise<void> {

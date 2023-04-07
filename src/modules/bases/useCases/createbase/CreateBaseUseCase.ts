@@ -1,4 +1,5 @@
 import { ICreateBaseDTO } from "../../../dtos/ICreateBaseDTO";
+import { Base } from "../../entities/Base";
 import { IBaseRepository } from "../../repositories/IBaseRepository";
 
 class CreateBaseUseCase {
@@ -11,13 +12,15 @@ class CreateBaseUseCase {
         term,
         cityId,
         churchId,
-    }: ICreateBaseDTO): Promise<void> {
-        await this.baseRepository.create({
+    }: ICreateBaseDTO): Promise<Base> {
+        const base = await this.baseRepository.create({
             name,
             term,
             cityId,
             churchId,
         });
+
+        return base;
     }
 }
 

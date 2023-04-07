@@ -5,6 +5,7 @@ import {
     ICreateRankingDTO,
     RankingType,
 } from "../../../dtos/ICreateRankingDTO";
+import { Ranking } from "../../entities/Ranking";
 import { IRankingRepository } from "../../repositories/IRankingRepository";
 
 class CreateRankingUseCase {
@@ -16,7 +17,7 @@ class CreateRankingUseCase {
         score,
         description,
         type,
-    }: ICreateRankingDTO): Promise<void> {
+    }: ICreateRankingDTO): Promise<Ranking> {
         if (!(type in RankingType)) {
             throw new AppError("O tipo enviado para o ranking é inválido");
         }
@@ -29,12 +30,14 @@ class CreateRankingUseCase {
             expiredAt = lastDayOfYear(new Date());
         }
 
-        await this.rankingRepository.create({
+        const ranking = await this.rankingRepository.create({
             score,
             description,
             type,
             expiredAt,
         });
+
+        return ranking;
     }
 }
 

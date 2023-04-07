@@ -13,7 +13,7 @@ const AppDataSource = new DataSource({
     database: process.env.DB_DATABASE,
     migrations: MIGRATIONS,
     entities: ENTITIES,
-    logging: true,
+    logging: process.env.NODE_ENV === "development",
 });
 
 AppDataSource.initialize()

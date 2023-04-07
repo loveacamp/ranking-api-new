@@ -10,9 +10,9 @@ class CreateChurchController {
     async handle(request: Request, response: Response): Promise<Response> {
         const { name } = request.body;
 
-        await this.createChurchUseCase.execute({ name });
+        const church = await this.createChurchUseCase.execute({ name });
 
-        return response.status(201).send();
+        return response.status(201).json(church);
     }
 }
 

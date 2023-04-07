@@ -10,8 +10,13 @@ export default class CreateBaseController {
     async handle(request: Request, response: Response): Promise<Response> {
         const { name, term, churchId, cityId } = request.body;
 
-        await this.createBaseUseCase.execute({ name, term, cityId, churchId });
+        const base = await this.createBaseUseCase.execute({
+            name,
+            term,
+            cityId,
+            churchId,
+        });
 
-        return response.status(201).send();
+        return response.status(201).json(base);
     }
 }

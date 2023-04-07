@@ -18,10 +18,25 @@ class ChurchRepository implements IChurchRepository {
         return churches;
     }
 
-    async create({ name }: ICreateChurchDTO): Promise<void> {
-        const church = this.repository.create({ name });
+    async create({ name }: ICreateChurchDTO): Promise<Church> {
+        const insertResult = await this.repository
+            .createQueryBuilder()
+            .insert()
+            .values({ name })
+            .returning(["id", "createdAt", "updatedAt"])
+            .execute();
 
-        await this.repository.save(church);
+        const church = new Church();
+        church.id = insertResult.identifiers[0].id;
+        church.name = name;
+        church.createdAt = insertResult.raw[0].createdAt;
+        church.updatedAt = insertResult.raw[0].updatedAt;
+
+        return church;
+    }
+
+    async edit({ name, id }: ICreateChurchDTO): Promise<void> {
+        await this.repository.update(id, { name });
     }
 }
 

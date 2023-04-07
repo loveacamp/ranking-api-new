@@ -5,7 +5,7 @@ import { Base } from "../entities/Base";
 
 interface IBaseRepository {
     list(): Promise<Base[]>;
-    create(base: ICreateBaseDTO): Promise<void>;
+    create(base: ICreateBaseDTO): Promise<Base>;
     edit(base: IEditBaseDTO): Promise<void>;
     delete(baseId: number): Promise<void>;
     addScore({ baseId, rankingId }: IAddScoreDTO): Promise<void>;

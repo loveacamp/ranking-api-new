@@ -1,4 +1,5 @@
 import { ICreateChurchDTO } from "../../../dtos/ICreateChurchDTO";
+import { Church } from "../../entities/Church";
 import { IChurchRepository } from "../../repositories/IChurchRepository";
 
 class CreateChurchUseCase {
@@ -6,8 +7,10 @@ class CreateChurchUseCase {
         //
     }
 
-    async execute({ name }: ICreateChurchDTO): Promise<void> {
-        await this.churchReposiotry.create({ name });
+    async execute({ name }: ICreateChurchDTO): Promise<Church> {
+        const church = await this.churchReposiotry.create({ name });
+
+        return church;
     }
 }
 

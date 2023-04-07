@@ -1,4 +1,5 @@
 interface ICreateChurchDTO {
+    id?: number;
     name: string;
 }
 
