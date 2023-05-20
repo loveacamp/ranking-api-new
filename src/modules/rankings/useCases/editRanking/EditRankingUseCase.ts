@@ -1,4 +1,5 @@
 import { IEditRankingDTO } from "../../../dtos/IEditRankingDTO";
+import { Ranking } from "../../entities/Ranking";
 import { IRankingRepository } from "../../repositories/IRankingRepository";
 
 class EditRankingUseCase {
@@ -6,12 +7,20 @@ class EditRankingUseCase {
         //
     }
 
-    async execute({ description, score, id }: IEditRankingDTO): Promise<void> {
-        await this.rankingRepository.edit({
+    async execute({
+        description,
+        detailing,
+        score,
+        id,
+    }: IEditRankingDTO): Promise<Ranking> {
+        const ranking: Ranking = await this.rankingRepository.edit({
             description,
+            detailing,
             score,
             id,
         });
+
+        return ranking;
     }
 }
 

@@ -23,6 +23,7 @@ class BaseRepository implements IBaseRepository {
                 church: true,
                 rankings: true,
             },
+            order: { name: "ASC" },
         });
 
         return bases;
@@ -58,12 +59,19 @@ class BaseRepository implements IBaseRepository {
         return baseRuturning;
     }
 
-    async edit({ churchId, cityId, name, id }: IEditBaseDTO): Promise<void> {
-        await this.repository.update(id, {
-            church: { id: churchId },
-            city: { id: cityId },
-            name,
+    async edit({ churchId, cityId, name, id }: IEditBaseDTO): Promise<Base> {
+        const base: Base = await this.repository.findOne({
+            where: { id },
+            relations: ["church", "city"],
         });
+
+        base.church.id = churchId;
+        base.city.id = cityId;
+        base.name = name;
+
+        await this.repository.save(base);
+
+        return base;
     }
 
     async delete(baseId: number): Promise<void> {
@@ -71,17 +79,19 @@ class BaseRepository implements IBaseRepository {
     }
 
     async addScore({ baseId, rankingId }: IAddScoreDTO): Promise<void> {
-        const base = await this.repository.findOne({
+        const base: Base = await this.repository.findOne({
             where: { id: baseId },
             relations: ["rankings"],
         });
 
-        const ranking = new Ranking();
+        const ranking: Ranking = new Ranking();
         ranking.id = rankingId;
 
-        base.rankings.push(ranking);
-
-        await this.repository.save(base);
+        await this.repository
+            .createQueryBuilder()
+            .relation(Base, "rankings")
+            .of(base)
+            .add(ranking);
     }
 
     async listScores(): Promise<IListScoresDTO[]> {
@@ -107,6 +117,30 @@ class BaseRepository implements IBaseRepository {
 
         const resolveScores = new ResolveScoresService(scores);
         return resolveScores.getResults();
+    }
+
+    async existScoreInDate(
+        initialDate: Date,
+        finalDate: Date,
+        baseId: number,
+        rankingId: number
+    ): Promise<boolean> {
+        const exists = await this.repository
+            .createQueryBuilder()
+            .leftJoin("bases_rankings_rankings", "br", "Base.id = br.basesId")
+            .where(
+                `(br."createdAt" BETWEEN :initialDate AND :finalDate) AND (br.basesId = :baseId AND br.rankingsId = :rankingId)`,
+                {
+                    initialDate,
+                    finalDate,
+                    baseId,
+                    rankingId,
+                }
+            )
+
+            .getExists();
+
+        return exists;
     }
 }
 

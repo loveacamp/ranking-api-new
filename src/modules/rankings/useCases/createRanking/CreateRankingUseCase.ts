@@ -17,6 +17,8 @@ class CreateRankingUseCase {
         score,
         description,
         type,
+        recurrence,
+        detailing,
     }: ICreateRankingDTO): Promise<Ranking> {
         if (!(type in RankingType)) {
             throw new AppError("O tipo enviado para o ranking é inválido");
@@ -33,6 +35,8 @@ class CreateRankingUseCase {
         const ranking = await this.rankingRepository.create({
             score,
             description,
+            recurrence,
+            detailing,
             type,
             expiredAt,
         });

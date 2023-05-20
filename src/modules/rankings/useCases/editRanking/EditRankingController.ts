@@ -9,15 +9,16 @@ class EditRankingController {
 
     async handle(request: Request, response: Response): Promise<Response> {
         const { rankingId } = request.params;
-        const { score, description } = request.body;
+        const { score, description, detailing } = request.body;
 
-        await this.editRankingUseCase.execute({
+        const ranking = await this.editRankingUseCase.execute({
             id: +rankingId,
             score,
             description,
+            detailing,
         });
 
-        return response.send();
+        return response.json(ranking);
     }
 }
 

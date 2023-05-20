@@ -18,7 +18,13 @@ class Ranking {
     description: string;
 
     @Column()
+    detailing: string;
+
+    @Column()
     type: string;
+
+    @Column()
+    recurrence: string;
 
     @Column()
     status: boolean;

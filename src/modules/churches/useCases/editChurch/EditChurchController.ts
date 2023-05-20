@@ -11,9 +11,12 @@ class EditChurchController {
         const { churchId } = request.params;
         const { name } = request.body;
 
-        await this.editChurchUseCase.execute({ name, id: +churchId });
+        const church = await this.editChurchUseCase.execute({
+            name,
+            id: +churchId,
+        });
 
-        return response.status(201).send();
+        return response.json(church);
     }
 }
 

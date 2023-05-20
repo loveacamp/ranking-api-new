@@ -7,6 +7,10 @@ import { CreateBases1680054732329 } from "./1680054732329-CreateBases";
 import { CreateAssociationBaseRanking1680133069015 } from "./1680133069015-CreateAssociationBaseRanking";
 import { AddColmnRankings1680217556593 } from "./1680217556593-AddColmnRankings";
 import { AddColmnStatusInRankings1680563264953 } from "./1680563264953-AddColmnStatusInRankings";
+import { AddColumnRecurrenceInRanking1681257054260 } from "./1681257054260-AddColumnRecurrenceInRanking";
+import { AlterPrimaryKeyRankings1681257896705 } from "./1681257896705-AlterPrimaryKeyRankings";
+import { AddColumnCreatedAtInBasesRankingsTable1683466610209 } from "./1683466610209-AddColumnCreatedAtInBasesRankingsTable";
+import { AddColumnDetailingInRankingTable1683490002617 } from "./1683490002617-AddColumnDetailingInRankingTable";
 
 export const MIGRATIONS = [
     CreateRankings1679863078422,
@@ -18,4 +22,8 @@ export const MIGRATIONS = [
     CreateAssociationBaseRanking1680133069015,
     AddColmnRankings1680217556593,
     AddColmnStatusInRankings1680563264953,
+    AddColumnRecurrenceInRanking1681257054260,
+    AlterPrimaryKeyRankings1681257896705,
+    AddColumnCreatedAtInBasesRankingsTable1683466610209,
+    AddColumnDetailingInRankingTable1683490002617,
 ];

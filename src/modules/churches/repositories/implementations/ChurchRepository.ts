@@ -35,8 +35,16 @@ class ChurchRepository implements IChurchRepository {
         return church;
     }
 
-    async edit({ name, id }: ICreateChurchDTO): Promise<void> {
-        await this.repository.update(id, { name });
+    async edit({ name, id }: ICreateChurchDTO): Promise<Church> {
+        const church: Church = await this.repository.findOne({
+            where: { id },
+        });
+
+        church.name = name;
+
+        await this.repository.save(church);
+
+        return church;
     }
 }
 

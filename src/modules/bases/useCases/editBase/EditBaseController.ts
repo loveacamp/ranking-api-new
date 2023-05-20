@@ -11,14 +11,17 @@ class EditBaseController {
         const { baseId } = request.params;
         const { name, cityId, churchId } = request.body;
 
-        await this.editBaseUseCase.execute({
+        const base = await this.editBaseUseCase.execute({
             id: +baseId,
             churchId,
             cityId,
             name,
         });
 
-        return response.send();
+        delete base.city;
+        delete base.church;
+
+        return response.json(base);
     }
 }
 

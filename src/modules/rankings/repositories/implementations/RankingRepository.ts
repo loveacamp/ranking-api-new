@@ -13,7 +13,16 @@ class RankingRepository implements IRankingRepository {
         this.repository = AppDataSource.getRepository(Ranking);
     }
 
+    async find(id: number): Promise<Ranking> {
+        const ranking = this.repository.findOne({
+            where: { id },
+        });
+
+        return ranking;
+    }
+
     async list(): Promise<Ranking[]> {
+        console.log("aqui eu passei aqui", new Date());
         const rankings: Ranking[] = await this.repository.find({
             order: { createdAt: "ASC" },
             where: {
@@ -38,10 +47,14 @@ class RankingRepository implements IRankingRepository {
         description,
         type,
         expiredAt,
+        recurrence,
+        detailing,
     }: ICreateRankingDTO): Promise<Ranking> {
         const ranking: Ranking = this.repository.create({
             score,
             description,
+            recurrence,
+            detailing,
             type,
             expiredAt,
         });
@@ -60,11 +73,23 @@ class RankingRepository implements IRankingRepository {
         return ranking;
     }
 
-    async edit({ description, score, id }: IEditRankingDTO): Promise<void> {
-        await this.repository.update(id, {
-            description,
-            score,
+    async edit({
+        description,
+        score,
+        detailing,
+        id,
+    }: IEditRankingDTO): Promise<Ranking> {
+        const ranking: Ranking = await this.repository.findOne({
+            where: { id },
         });
+
+        ranking.description = description;
+        ranking.score = score;
+        ranking.detailing = detailing;
+
+        await this.repository.save(ranking);
+
+        return ranking;
     }
 
     async inactive(id: number): Promise<void> {
